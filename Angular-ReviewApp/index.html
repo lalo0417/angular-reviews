@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="reviewApp">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="style/main.css">
+	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/angular-translate/angular-translate.js"></script>
+	<script src="bower_components/moment/moment.js"></script>
+	<script src="bower_components/angular-moment/angular-moment.js"></script>
+	<script src="bower_components/angularUtils-pagination/dirPagination.js"></script>
+	<script src="script/controllers/translateController.js"></script>
+	<script src="script/controllers/appController.js"></script>
+	<script src="script/app.js"></script>
+
+
+
+	<title>Angular-ReviewApp</title>
+</head>
+
+<body ng-app="reviewApp" ng-controller="Ctrl">
+	<directive-title></directive-title>
+	<div>
+		<div ng-show="shouldShow">
+			<p translate="SELECT_LANGUAGE">SELECT LANGUAGE: </p>
+
+			<button class="btn ng-scope" ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN">English</button>
+			<button class="btn ng-scope" ng-click="changeLanguage('fr')" translate="BUTTON_LANG_FR">French</button>
+		</div>
+		<div ng-hide="shouldShow">
+			<p><span translate="CURRENT_LANGUAGE"></span> |
+				<button translate="SWITCH_LANGUAGE" ng-click="switchLanguage()">Switch Language</button>
+			</p>
+		</div>
+
+	</div>
+	<div ng-controller="reviewAppController" ng-hide="shouldShow">
+		<div>
+			<!--		ng-include="'templates/reviewForm.html'"-->
+			<form name="reviewForm">
+				<span translate="NICKNAME">Nickname:</span>
+				<input type="text" name="nickname" ng-model="nickname" required>
+				<br>
+				<br>
+				<span translate="REVIEW">Review: </span>
+				<textarea ng-model="reviewText" maxlength="255" required></textarea>
+				<span>{{255 - reviewText.length}}</span>
+				<br>
+				<input type="submit" ng-click="submitReview()" ng-disabled="reviewForm.$invalid" value="{{'BUTTON_SUBMIT' | translate}}" />
+			</form>
+		</div>
+		<div id="angularReviews">
+			<h3 translate=" TITLE ">Angular Reviews</h3>
+
+			<select ng-options="option as option.title | translate for option in options track by option.direction" ng-model="option" ng-init="option = options[0]"> </select>
+
+			<ul dir-paginate="review in reviewFull | orderBy: option.direction |itemsPerPage: (2)">
+				<p>{{review.text}}</p>
+				<p>by {{review.nickname}}, {{review.time}} </p>
+				<hr>
+			</ul>
+
+			<dir-pagination-controls [max-size="" ] [direction-links="" ] [boundary-links="" ] [on-page-change="" ] [pagination-id="" ] [template-url="" ] [auto-hide="" ]>
+			</dir-pagination-controls>
+
+		</div>
+	</div>
+
+
+</body>
+
+</html>

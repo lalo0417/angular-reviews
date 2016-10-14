@@ -1,0 +1,11 @@
+<form name="reviewForm">
+	<span translate="NICKNAME">Nickname:</span>
+	<input type="text" name="nickname" ng-model="nickname" required>
+	<br>
+	<br>
+	<span translate="REVIEW">Review: </span>
+	<textarea ng-model="reviewText" maxlength="255" required></textarea>
+	<span>{{255 - reviewText.length}}</span>
+	<br>
+	<input type="submit" ng-click="submitReview()" ng-disabled="reviewForm.$invalid" value="{{'BUTTON_SUBMIT' | translate}}" />
+</form>
